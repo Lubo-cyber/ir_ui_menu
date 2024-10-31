@@ -1,0 +1,219 @@
+package com.example.crud.view;
+
+import com.example.crud.HelloApplication;
+import com.example.crud.model.IrUiMenu;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+
+import javafx.application.Platform;
+import com.example.crud.model.Conexion;
+import com.example.crud.model.Cuenta;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.sql.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class HelloController {
+
+    @FXML
+    private Button eliminar;
+    @FXML
+    private Button buscar;
+    @FXML
+    private Button editar;
+    @FXML
+    private TableView<Cuenta> tabla;
+    @FXML
+    private Button mas;
+
+
+    private ObservableList<Cuenta> listaCuentas;
+    @FXML
+    private Button Cargar;
+    @FXML
+    private TableColumn<Cuenta, Integer> tablaid;
+    @FXML
+    private TableColumn<Cuenta, Integer> tablasecuencia;
+    @FXML
+    private TableColumn<Cuenta, Boolean> tablaactivo;
+    @FXML
+    private TableColumn<Cuenta, LocalDate> tablacreardate;
+    @FXML
+    private TableColumn<Cuenta, String> tablaname;
+    @FXML
+    private TextArea textobuscar;
+
+
+    @FXML
+    public void initialize() {
+        listaCuentas = FXCollections.observableArrayList();
+        tabla.setItems(listaCuentas);
+        tablaid.setCellValueFactory(new PropertyValueFactory<>("ID"));
+        tablasecuencia.setCellValueFactory(new PropertyValueFactory<>("SEQUENCE"));
+        tablacreardate.setCellValueFactory(new PropertyValueFactory<>("CREATE_DATE"));
+        tablaactivo.setCellValueFactory(new PropertyValueFactory<>("ACTIVE"));
+        tablaname.setCellValueFactory(new PropertyValueFactory<>("NAME"));
+    }
+
+    @FXML
+    public void botonmas(ActionEvent actionEvent) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Anadir.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 619, 583);
+        Stage stage = new Stage();
+        stage.setTitle("Nuevo elemento");
+        stage.setScene(scene);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setResizable(false);
+        stage.show();
+
+    }
+
+
+    @FXML
+    public void botoneliminar(ActionEvent actionEvent) {
+        Cuenta cuentaSeleccionada = tabla.getSelectionModel().getSelectedItem();
+        if (cuentaSeleccionada != null) {
+            try {
+                eliminarCuentaDeBaseDatos(cuentaSeleccionada);
+                listaCuentas.remove(cuentaSeleccionada);
+                mostrarAlerta("Elemento eliminado", "El elemento seleccionado ha sido eliminada exitosamente.");
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                mostrarAlerta("Error", "No se pudo eliminar el elemento.");
+            }
+        } else {
+            System.out.println("No hay elemento seleccionada para eliminar.");
+        }
+    }
+
+    private void eliminarCuentaDeBaseDatos(Cuenta cuenta) throws SQLException {
+        String sql = "DELETE FROM ir_ui_menu WHERE id = ?";
+        try (Connection conexion = Conexion.conectar();
+             PreparedStatement pst = conexion.prepareStatement(sql)) {
+            pst.setInt(1, cuenta.getID());
+            pst.executeUpdate();
+        }
+    }
+
+    private void mostrarAlerta(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    @FXML
+    public void botonbuscar(ActionEvent actionEvent) {
+        try {
+
+            String idText = textobuscar.getText();
+            Integer id = Integer.parseInt(idText);
+
+
+            List<Cuenta> resultados = Cuenta.buscarPorId(id);
+
+
+            listaCuentas.clear();
+
+            if (resultados.isEmpty()) {
+                mostrarAlerta("Sin resultados", "No se encontraron resultados para el ID: " + id);
+            } else {
+
+                listaCuentas.addAll(resultados);
+
+
+                tabla.refresh();
+            }
+        } catch (NumberFormatException e) {
+            mostrarAlerta("Error", "Por favor, ingrese un ID válido.");
+        } catch (SQLException e) {
+            mostrarAlerta("Error", "Ocurrió un error al buscar.");
+        }
+    }
+
+
+
+
+    private void cargarTodasLasCuentas() {
+        tabla.setItems(listaCuentas);
+    }
+    @FXML
+    public void botoneditar(ActionEvent actionEvent) {
+        Cuenta cuentaSeleccionada = tabla.getSelectionModel().getSelectedItem();
+        if (cuentaSeleccionada != null) {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Editar.fxml"));
+                Scene scene2 = new Scene(fxmlLoader.load(), 619, 583);
+                Stage stage2 = new Stage();
+                stage2.setTitle("Editar elemento");
+                stage2.setScene(scene2);
+                stage2.initModality(Modality.APPLICATION_MODAL);
+                stage2.setResizable(false);
+
+                HelloController3 controller = fxmlLoader.getController();
+                controller.setCuenta(cuentaSeleccionada);
+
+                stage2.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+                mostrarAlerta("Error", "No se ha podido cargar la ventana de edición.");
+            }
+        } else {
+            mostrarAlerta("Advertencia", "Por favor, selecciona una cuenta para editar.");
+        }
+    }
+
+
+    @FXML
+    public void BotonCargar(ActionEvent actionEvent) {
+        Task<Void> cargarDatosTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                List<Cuenta> datos = new ArrayList<>();
+                try (Connection conexion = Conexion.conectar();
+                     Statement sentencia = conexion.createStatement();
+                     ResultSet resultado = sentencia.executeQuery("SELECT ID, SEQUENCE, ACTIVE, CREATE_DATE, NAME FROM ir_ui_menu"))
+                {
+                    while (resultado.next()) {
+                        int id = resultado.getInt("ID");
+                        int sequence = resultado.getInt("SEQUENCE");
+                        boolean active = resultado.getBoolean("ACTIVE");
+                        LocalDate createDate = resultado.getDate("CREATE_DATE").toLocalDate();
+                        Date create_Date = Date.valueOf(createDate);
+                        String name = resultado.getString("NAME");
+
+
+                        datos.add(new Cuenta(id, sequence, active, create_Date, name));
+                    }
+
+                    Platform.runLater(() -> {
+                        tabla.setItems(FXCollections.observableArrayList(datos));
+                    });
+                } catch (SQLException e) {
+                    System.out.print("Error: " + e.getMessage());
+                }
+
+                return null;
+            }
+        };
+
+        Thread hilo = new Thread(cargarDatosTask);
+        hilo.start();
+    }
+}
+
+

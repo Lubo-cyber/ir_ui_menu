@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="764.0" prefWidth="797.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.crud.view.HelloController">
+   <children>
+      <Label layoutX="31.0" layoutY="42.0" prefHeight="70.0" prefWidth="244.0" text="ir_ui_menu" underline="true">
+         <font>
+            <Font name="Cambria Math" size="45.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.5215200185775757" green="0.8199999928474426" blue="0.18039999902248383" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.8640000224113464" green="0.9599999785423279" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
+      <Label layoutX="31.0" layoutY="110.0" prefHeight="93.0" prefWidth="147.0" text="ID:">
+         <font>
+            <Font name="Cambria Math" size="32.0" />
+         </font>
+      </Label>
+      <TextArea fx:id="textobuscar" layoutX="89.0" layoutY="138.0" prefHeight="18.0" prefWidth="200.0" />
+      <Button fx:id="buscar" layoutX="304.0" layoutY="129.0" mnemonicParsing="false" onAction="#botonbuscar" prefHeight="54.0" prefWidth="49.0" text="🔍" />
+      <Button fx:id="mas" layoutX="508.0" layoutY="129.0" mnemonicParsing="false" onAction="#botonmas" prefHeight="54.0" prefWidth="49.0" text="+">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="eliminar" layoutX="557.0" layoutY="129.0" mnemonicParsing="false" onAction="#botoneliminar" prefHeight="54.0" prefWidth="49.0" text="🗑️" />
+      <Button fx:id="editar" layoutX="606.0" layoutY="129.0" mnemonicParsing="false" onAction="#botoneditar" prefHeight="54.0" prefWidth="49.0" text="✏️" />
+      <TableView fx:id="tabla" layoutX="3.0" layoutY="232.0" prefHeight="409.0" prefWidth="790.0">
+        <columns>
+          <TableColumn fx:id="tablaid" prefWidth="148.0" text="ID" />
+          <TableColumn fx:id="tablasecuencia" prefWidth="156.0" text="SEQUENCE" />
+            <TableColumn fx:id="tablaactivo" prefWidth="159.0" text="ACTIVE" />
+            <TableColumn fx:id="tablacreardate" prefWidth="172.0" text="CREATE_DATE" />
+            <TableColumn fx:id="tablaname" prefWidth="154.0" text="NAME" />
+        </columns>
+      </TableView>
+      <Button fx:id="Cargar" layoutX="665.0" layoutY="129.0" mnemonicParsing="false" onAction="#BotonCargar" prefHeight="54.0" prefWidth="113.0" text="Cargar/Refrescar" />
+   </children>
+</AnchorPane>
