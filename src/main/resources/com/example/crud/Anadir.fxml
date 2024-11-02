@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="583.0" prefWidth="619.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.crud.view.HelloController2">
+<AnchorPane prefHeight="583.0" prefWidth="619.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.crud.view.HelloController2" stylesheets="@Estilo.css">
    <children>
       <Label layoutX="182.0" layoutY="6.0" prefHeight="75.0" prefWidth="277.0" text="Nuevo elemento" underline="true">
          <font>

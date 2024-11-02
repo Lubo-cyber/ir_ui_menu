@@ -15,6 +15,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.application.Platform;
 import com.example.crud.model.Conexion;
 import com.example.crud.model.Cuenta;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -54,6 +55,8 @@ public class HelloController {
     private TableColumn<Cuenta, String> tablaname;
     @FXML
     private TextArea textobuscar;
+    @FXML
+    private AnchorPane fondo;
 
 
     @FXML
@@ -67,11 +70,13 @@ public class HelloController {
         tablaname.setCellValueFactory(new PropertyValueFactory<>("NAME"));
     }
 
+
     @FXML
     public void botonmas(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Anadir.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 619, 583);
         Stage stage = new Stage();
+        scene.getStylesheets().add(getClass().getResource("/com/example/crud/Estilo.css").toExternalForm());
         stage.setTitle("Nuevo elemento");
         stage.setScene(scene);
         stage.initModality(Modality.APPLICATION_MODAL);
@@ -118,32 +123,60 @@ public class HelloController {
 
     @FXML
     public void botonbuscar(ActionEvent actionEvent) {
+        String idInput = textobuscar.getText().trim();
+        System.out.println("Buscando ID: " + idInput);
+
+        if (idInput.isEmpty()) {
+            mostrarAlerta("Error", "Por favor ingresa un ID para buscar.");
+            return;
+        }
+
         try {
-
-            String idText = textobuscar.getText();
-            Integer id = Integer.parseInt(idText);
-
-
-            List<Cuenta> resultados = Cuenta.buscarPorId(id);
+            int id = Integer.parseInt(idInput);
+            Cuenta cuentaBuscada = buscarCuentaPorId(id);
 
 
             listaCuentas.clear();
-
-            if (resultados.isEmpty()) {
-                mostrarAlerta("Sin resultados", "No se encontraron resultados para el ID: " + id);
+            if (cuentaBuscada != null) {
+                System.out.println("Cuenta encontrada: " + cuentaBuscada);
+                listaCuentas.add(cuentaBuscada);
             } else {
-
-                listaCuentas.addAll(resultados);
-
-
-                tabla.refresh();
+                mostrarAlerta("No encontrado", "No se encontró ninguna cuenta con el ID especificado.");
             }
+
+
+            tabla.setItems(listaCuentas); // Asegúrate de refrescar la tabla
+
         } catch (NumberFormatException e) {
-            mostrarAlerta("Error", "Por favor, ingrese un ID válido.");
+            mostrarAlerta("Error", "El ID ingresado no es válido.");
         } catch (SQLException e) {
-            mostrarAlerta("Error", "Ocurrió un error al buscar.");
+            e.printStackTrace();
+            mostrarAlerta("Error", "No se pudo acceder a la base de datos.");
         }
     }
+
+
+
+    private Cuenta buscarCuentaPorId(int id) throws SQLException {
+        String sql = "SELECT ID, SEQUENCE, ACTIVE, CREATE_DATE, NAME FROM ir_ui_menu WHERE ID = ?";
+        try (Connection conexion = Conexion.conectar();
+             PreparedStatement pst = conexion.prepareStatement(sql)) {
+            pst.setInt(1, id);
+            ResultSet resultado = pst.executeQuery();
+
+            if (resultado.next()) {
+                int sequence = resultado.getInt("SEQUENCE");
+                boolean active = resultado.getBoolean("ACTIVE");
+                LocalDate createDate = resultado.getDate("CREATE_DATE").toLocalDate();
+                String name = resultado.getString("NAME");
+
+                return new Cuenta(id, sequence, active, Date.valueOf(createDate), name);
+            } else {
+                return null;
+            }
+        }
+    }
+
 
 
 
@@ -159,6 +192,7 @@ public class HelloController {
                 FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Editar.fxml"));
                 Scene scene2 = new Scene(fxmlLoader.load(), 619, 583);
                 Stage stage2 = new Stage();
+                scene2.getStylesheets().add(getClass().getResource("/com/example/crud/Estilo.css").toExternalForm());
                 stage2.setTitle("Editar elemento");
                 stage2.setScene(scene2);
                 stage2.initModality(Modality.APPLICATION_MODAL);

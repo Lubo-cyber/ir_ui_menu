@@ -6,7 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Cuenta {
+public class Cuenta
+{
     private Integer ID;
     private Integer SEQUENCE;
     private Boolean ACTIVE;
@@ -20,31 +21,14 @@ public class Cuenta {
         this.CREATE_DATE = createDate;
         this.NAME = name;
     }
-
-    public static List<Cuenta> buscarPorId(Integer id) throws SQLException {
-        List<Cuenta> cuentas = new ArrayList<>();
-        String sql = "SELECT * FROM ir_ui_menu WHERE id = ?";
-
-        try (Connection conexion = Conexion.conectar();
-             PreparedStatement pst = conexion.prepareStatement(sql)) {
-            pst.setInt(1, id);
-            ResultSet rs = pst.executeQuery();
-
-            while (rs.next()) {
-                Integer cuentaId = rs.getInt("id");
-                Integer sequence = rs.getInt("sequence");
-                Boolean active = rs.getBoolean("active");
-                Date createDate = rs.getDate("create_date");
-                String name = rs.getString("name");
-
-                // Creamos una instancia de Cuenta con los datos obtenidos
-                Cuenta cuenta = new Cuenta(cuentaId, sequence, active, createDate, name);
-                cuentas.add(cuenta); // Añadimos a la lista
-            }
+        private Boolean active;
+        public Boolean isActive() {
+            return active;
         }
 
-        return cuentas;
-    }
+        public void setActive(Boolean active) {
+            this.active = active;
+        }
 
 
     public String getNAME() {

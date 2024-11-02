@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -30,7 +31,7 @@ public class HelloController3 {
     @FXML
     private Button BotonCancelar2;
 
-    private Cuenta cuenta; // Para almacenar la cuenta que se va a editar
+    private Cuenta cuenta;
 
     public void initialize() {
         choicetext2.getItems().addAll("True", "False");
@@ -48,35 +49,49 @@ public class HelloController3 {
     }
 
     @FXML
-    public void BotonAceptarAction(ActionEvent actionEvent)
-    {
+    public void BotonAceptarAction(ActionEvent actionEvent) {
         if (cuenta != null) {
             try {
                 Integer id = Integer.parseInt(idtext2.getText());
                 Integer secuencia = Integer.parseInt(secuenciatext2.getText());
-                Boolean activo = choicetext2.getValue() != null && choicetext2.getValue().equals("True");
+                Boolean activo = choicetext2.getValue().equals("True");
                 String name = nametext2.getText();
-                java.sql.Date createDate = java.sql.Date.valueOf(datetext2.getValue());
+                Date createDate = Date.valueOf(datetext2.getValue());
 
-                actualizarCuenta(id, secuencia, activo, createDate, name);
+                int rowsAffected = actualizarCuenta(id, secuencia, activo, createDate, name);
+
+
+                if (rowsAffected > 0) {
+                    System.out.println("Actualización exitosa.");
+                } else {
+                    System.out.println("No se encontró el registro para actualizar.");
+                }
 
                 ((Stage) BotonAceptar2.getScene().getWindow()).close();
-            } catch (NumberFormatException | SQLException e) {
-                e.printStackTrace();
+            } catch (NumberFormatException e) {
+                System.err.println("Error de formato de número: " + e.getMessage());
+            } catch (SQLException e) {
+                System.err.println("Error de SQL: " + e.getMessage());
             }
         }
     }
 
-    private void actualizarCuenta(Integer id, Integer secuencia, Boolean activo, java.sql.Date createDate, String name) throws SQLException {
-        String sql = "UPDATE ir_ui_menu SET sequence = ?, active = ?, create_date = ?, name = ? WHERE id = ?";
-        try (Connection connection = Conexion.conectar();
-             PreparedStatement pst = connection.prepareStatement(sql)) {
-            pst.setInt(1, secuencia);
-            pst.setBoolean(2, activo);
+    public int actualizarCuenta(Integer id, Integer sequence, Boolean active, Date createDate, String name) throws SQLException {
+        String sql = "UPDATE ir_ui_menu SET SEQUENCE = ?, ACTIVE = ?, CREATE_DATE = ?, NAME = ?::jsonb WHERE ID = ?";
+
+        try (Connection conexion = Conexion.conectar();
+             PreparedStatement pst = conexion.prepareStatement(sql)) {
+
+            pst.setInt(1, sequence);
+            pst.setBoolean(2, active);
             pst.setDate(3, createDate);
-            pst.setString(4, name);
+
+
+            String jsonString = "{\"name\": \"" + name + "\"}";
+            pst.setObject(4, jsonString, java.sql.Types.OTHER);
             pst.setInt(5, id);
-            pst.executeUpdate();
+
+            return pst.executeUpdate();
         }
     }
 

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="764.0" prefWidth="790.0" spacing="10" stylesheets="view" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.crud.view.HelloController">
+    <children>
+        <Label layoutX="31.0" layoutY="42.0" prefHeight="70.0" prefWidth="244.0" text="ir_ui_menu" underline="true">
+            <font>
+                <Font name="Cambria Math" size="45.0" />
+            </font>
+            <textFill>
+                <LinearGradient endX="1.0" endY="1.0">
+                    <stops>
+                        <Stop>
+                            <color>
+                                <Color red="0.5215200185775757" green="0.8199999928474426" blue="0.18039999902248383" />
+                            </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                            <color>
+                                <Color red="0.8640000224113464" green="0.9599999785423279" />
+                            </color>
+                        </Stop>
+                    </stops>
+                </LinearGradient>
+            </textFill>
+        </Label>
+        <Label layoutX="31.0" layoutY="112.0" prefHeight="36.0" prefWidth="147.0" text="ID:">
+            <font>
+                <Font name="Cambria Math" size="32.0" />
+            </font>
+        </Label>
+        <TextArea fx:id="textobuscar" layoutX="84.0" layoutY="129.0" prefHeight="18.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+         <VBox.margin>
+            <Insets />
+         </VBox.margin></TextArea>
+        <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+            <Button fx:id="buscar" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#botonbuscar" prefHeight="56.0" prefWidth="62.0" text="🔍">
+            <HBox.margin>
+               <Insets left="10.0" />
+            </HBox.margin></Button>
+            <Button fx:id="mas" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#botonmas" prefHeight="54.0" prefWidth="62.0" text="+">
+                <font>
+                    <Font name="System Bold" size="26.0" />
+                </font>
+            <HBox.margin>
+               <Insets left="5.0" />
+            </HBox.margin>
+            </Button>
+            <Button fx:id="eliminar" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#botoneliminar" prefHeight="54.0" prefWidth="62.0" text="🗑">
+                <font>
+                    <Font size="26.0" />
+                </font>
+            <HBox.margin>
+               <Insets left="5.0" />
+            </HBox.margin>
+            </Button>
+            <Button fx:id="editar" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#botoneditar" prefHeight="56.0" prefWidth="69.0" text="✏">
+                <font>
+                    <Font size="26.0" />
+                </font>
+            <HBox.margin>
+               <Insets left="5.0" />
+            </HBox.margin>
+            </Button>
+           <Button fx:id="Cargar" alignment="CENTER_RIGHT" contentDisplay="RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#BotonCargar" prefHeight="56.0" prefWidth="171.0" text="Cargar/Refrescar" textAlignment="RIGHT" HBox.hgrow="ALWAYS">
+            <HBox.margin>
+               <Insets left="360.0" />
+            </HBox.margin>
+         </Button>
+        </HBox>
+        <TableView fx:id="tabla" prefHeight="527.0" prefWidth="790.0" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="tablaid" prefWidth="148.0" text="ID" />
+                <TableColumn fx:id="tablasecuencia" prefWidth="156.0" text="SEQUENCE" />
+                <TableColumn fx:id="tablaactivo" prefWidth="159.0" text="ACTIVE" />
+                <TableColumn fx:id="tablacreardate" prefWidth="172.0" text="CREATE_DATE" />
+                <TableColumn fx:id="tablaname" prefWidth="154.0" text="NAME" />
+            </columns>
+        </TableView>
+    </children>
+</VBox>

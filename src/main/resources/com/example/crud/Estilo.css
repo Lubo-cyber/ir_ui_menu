@@ -1,0 +1,136 @@
+ VBox{
+    -fx-background-color: linear-gradient(to bottom right, #e0f7fa, #80deea);
+}
+ AnchorPane{
+     -fx-background-color: linear-gradient(to bottom right, #e0f7fa, #80deea);
+ }
+Label {
+    -fx-text-fill: #37474f;
+    -fx-font-family: "Cambria Math";
+    -fx-font-weight: bold;
+}
+
+Label[underline="true"] {
+    -fx-font-size: 40px;
+    -fx-text-fill: linear-gradient(from 0% 0% to 100% 100%, #00796b, #004d40);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 5, 0.5, 0, 1);
+}
+#textobuscar {
+    -fx-pref-height: 10px;
+    -fx-pref-width: 200px;
+    -fx-font-size: 14px;
+    -fx-padding: 5px;
+}
+
+TextField, TextArea {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #4db6ac;
+    -fx-border-width: 1.5px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 6px;
+    -fx-font-size: 16px;
+    -fx-text-fill: #37474f;
+}
+
+TextField:focused, TextArea:focused {
+    -fx-border-color: #00796b;
+    -fx-effect: dropshadow(gaussian, rgba(0, 150, 136, 0.5), 6, 0.3, 0, 2);
+}
+
+ChoiceBox {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #4db6ac;
+    -fx-border-radius: 8px;
+    -fx-padding: 5px;
+    -fx-font-size: 16px;
+    -fx-text-fill: #37474f;
+}
+
+ChoiceBox:focused {
+    -fx-border-color: #00796b;
+    -fx-effect: dropshadow(gaussian, rgba(0, 150, 136, 0.5), 6, 0.3, 0, 2);
+}
+
+DatePicker {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #4db6ac;
+    -fx-border-radius: 8px;
+    -fx-padding: 5px;
+    -fx-font-size: 16px;
+}
+
+DatePicker:focused {
+    -fx-border-color: #00796b;
+    -fx-effect: dropshadow(gaussian, rgba(0, 150, 136, 0.5), 6, 0.3, 0, 2);
+}
+
+Button {
+    -fx-background-color: linear-gradient(to bottom, #4db6ac, #00796b);
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 12px;
+    -fx-padding: 10px 15px;
+    -fx-cursor: hand;
+}
+
+#mas, #eliminar, #editar {
+    -fx-font-size: 26px;
+    -fx-background-color: linear-gradient(to bottom, #4db6ac, #00796b);
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-background-radius: 12px;
+    -fx-padding: 10px 15px;
+    -fx-cursor: hand;
+}
+
+#mas:hover, #eliminar:hover, #editar:hover {
+    -fx-background-color: linear-gradient(to bottom, #00796b, #004d40);
+}
+
+#mas:pressed, #eliminar:pressed, #editar:pressed {
+    -fx-background-color: #004d40;
+    -fx-effect: innershadow(gaussian, rgba(0, 0, 0, 0.3), 6, 0.3, 0, 1);
+}
+.
+Button:hover {
+    -fx-background-color: linear-gradient(to bottom, #00796b, #004d40);
+}
+
+Button:pressed {
+    -fx-background-color: #004d40;
+    -fx-effect: innershadow(gaussian, rgba(0, 0, 0, 0.3), 6, 0.3, 0, 1);
+}
+
+
+#tabla {
+    -fx-background-color: #f0f0f0;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 5px;
+    -fx-padding: 10px;
+}
+
+#tabla .table-header {
+    -fx-background-color: #4db6ac;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+}
+
+#tabla .table-row-cell {
+    -fx-background-color: #ffffff;
+}
+
+#tabla .table-row-cell:selected {
+    -fx-background-color: #00796b;
+    -fx-text-fill: #ffffff;
+}
+
+#tabla .table-row-cell:hover {
+    -fx-background-color: #4db6ac;
+}
+
+#tabla .table-column-header {
+    -fx-background-color: #4db6ac;
+    -fx-text-fill: #ffffff;
+}
