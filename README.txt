@@ -1,0 +1,1 @@
+Lo ejecutamos normal dándole al botón de ejecutar de IntelIJ, lo único que cuando añadimos o eliminamos hay que refrescar la tabla para ver el cambio.
