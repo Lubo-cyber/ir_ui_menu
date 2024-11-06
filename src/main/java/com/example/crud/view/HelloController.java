@@ -1,7 +1,8 @@
 package com.example.crud.view;
 
 import com.example.crud.HelloApplication;
-import com.example.crud.model.IrUiMenu;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -10,7 +11,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 
 import javafx.application.Platform;
 import com.example.crud.model.Conexion;
@@ -24,7 +24,6 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class HelloController {
 
@@ -58,16 +57,17 @@ public class HelloController {
     @FXML
     private AnchorPane fondo;
 
+    private ObservableList<Cuenta> listaCuenta = FXCollections.observableArrayList();
 
-    @FXML
+    private BooleanProperty isDataLoaded = new SimpleBooleanProperty(false);
     public void initialize() {
-        listaCuentas = FXCollections.observableArrayList();
-        tabla.setItems(listaCuentas);
-        tablaid.setCellValueFactory(new PropertyValueFactory<>("ID"));
-        tablasecuencia.setCellValueFactory(new PropertyValueFactory<>("SEQUENCE"));
-        tablacreardate.setCellValueFactory(new PropertyValueFactory<>("CREATE_DATE"));
-        tablaactivo.setCellValueFactory(new PropertyValueFactory<>("ACTIVE"));
-        tablaname.setCellValueFactory(new PropertyValueFactory<>("NAME"));
+
+        mas.visibleProperty().bind(isDataLoaded);
+        eliminar.visibleProperty().bind(isDataLoaded);
+        editar.visibleProperty().bind(isDataLoaded);
+        buscar.visibleProperty().bind(isDataLoaded);
+        tabla.setItems(listaCuenta);
+
     }
 
 
@@ -156,7 +156,6 @@ public class HelloController {
     }
 
 
-
     private Cuenta buscarCuentaPorId(int id) throws SQLException {
         String sql = "SELECT ID, SEQUENCE, ACTIVE, CREATE_DATE, NAME FROM ir_ui_menu WHERE ID = ?";
         try (Connection conexion = Conexion.conectar();
@@ -178,12 +177,10 @@ public class HelloController {
     }
 
 
-
-
-
     private void cargarTodasLasCuentas() {
         tabla.setItems(listaCuentas);
     }
+
     @FXML
     public void botoneditar(ActionEvent actionEvent) {
         Cuenta cuentaSeleccionada = tabla.getSelectionModel().getSelectedItem();
@@ -214,40 +211,44 @@ public class HelloController {
 
     @FXML
     public void BotonCargar(ActionEvent actionEvent) {
+        isDataLoaded.set(false);  // Desactiva los botones mientras se cargan los datos
         Task<Void> cargarDatosTask = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
                 List<Cuenta> datos = new ArrayList<>();
                 try (Connection conexion = Conexion.conectar();
                      Statement sentencia = conexion.createStatement();
-                     ResultSet resultado = sentencia.executeQuery("SELECT ID, SEQUENCE, ACTIVE, CREATE_DATE, NAME FROM ir_ui_menu"))
-                {
+                     ResultSet resultado = sentencia.executeQuery("SELECT ID, SEQUENCE, ACTIVE, CREATE_DATE, NAME FROM ir_ui_menu")) {
+
                     while (resultado.next()) {
                         int id = resultado.getInt("ID");
                         int sequence = resultado.getInt("SEQUENCE");
                         boolean active = resultado.getBoolean("ACTIVE");
                         LocalDate createDate = resultado.getDate("CREATE_DATE").toLocalDate();
-                        Date create_Date = Date.valueOf(createDate);
                         String name = resultado.getString("NAME");
 
-
-                        datos.add(new Cuenta(id, sequence, active, create_Date, name));
+                        // Agregar cada cuenta a la lista de datos
+                        datos.add(new Cuenta(id, sequence, active, Date.valueOf(createDate), name));
                     }
 
                     Platform.runLater(() -> {
-                        tabla.setItems(FXCollections.observableArrayList(datos));
+                        listaCuentas = FXCollections.observableArrayList(datos);
+                        tabla.setItems(listaCuentas);
+                        isDataLoaded.set(true);
                     });
+
                 } catch (SQLException e) {
-                    System.out.print("Error: " + e.getMessage());
+                    e.printStackTrace();
+                    Platform.runLater(() -> mostrarAlerta("Error", "No se pudo cargar la base de datos."));
                 }
 
                 return null;
             }
         };
 
+        // Ejecutar la tarea de carga en un hilo separado para no bloquear la interfaz
         Thread hilo = new Thread(cargarDatosTask);
         hilo.start();
     }
+
 }
-
-
