@@ -1,8 +1,8 @@
 package com.example.crud.view;
 
 import com.example.crud.HelloApplication;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -11,7 +11,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-
 import javafx.application.Platform;
 import com.example.crud.model.Conexion;
 import com.example.crud.model.Cuenta;
@@ -37,9 +36,6 @@ public class HelloController {
     private TableView<Cuenta> tabla;
     @FXML
     private Button mas;
-
-
-    private ObservableList<Cuenta> listaCuentas;
     @FXML
     private Button Cargar;
     @FXML
@@ -57,19 +53,30 @@ public class HelloController {
     @FXML
     private AnchorPane fondo;
 
-    private ObservableList<Cuenta> listaCuenta = FXCollections.observableArrayList();
+    private final ObservableList<Cuenta> listaCuenta = FXCollections.observableArrayList();
+    private final BooleanProperty isDataLoaded = new SimpleBooleanProperty(false);
+    private final ObjectProperty<Cuenta> cuentaSeleccionada = new SimpleObjectProperty<>();
 
-    private BooleanProperty isDataLoaded = new SimpleBooleanProperty(false);
     public void initialize() {
+        tablaid.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getID()));
+        tablasecuencia.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getSEQUENCE()));
+        tablaactivo.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getACTIVE()));
+        tablacreardate.setCellValueFactory(cellData -> {
+            java.sql.Date date = cellData.getValue().getCREATE_DATE();
+            return new SimpleObjectProperty<>(date != null ? date.toLocalDate() : null);
+        });
+        tablaname.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getNAME()));
+
+        tabla.setItems(listaCuenta);
 
         mas.visibleProperty().bind(isDataLoaded);
         eliminar.visibleProperty().bind(isDataLoaded);
         editar.visibleProperty().bind(isDataLoaded);
         buscar.visibleProperty().bind(isDataLoaded);
-        tabla.setItems(listaCuenta);
 
+        editar.disableProperty().bind(Bindings.isNull(tabla.getSelectionModel().selectedItemProperty()));
+        eliminar.disableProperty().bind(Bindings.isNull(tabla.getSelectionModel().selectedItemProperty()));
     }
-
 
     @FXML
     public void botonmas(ActionEvent actionEvent) throws IOException {
@@ -82,19 +89,16 @@ public class HelloController {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setResizable(false);
         stage.show();
-
     }
-
 
     @FXML
     public void botoneliminar(ActionEvent actionEvent) {
-        Cuenta cuentaSeleccionada = tabla.getSelectionModel().getSelectedItem();
-        if (cuentaSeleccionada != null) {
+        Cuenta cuenta = tabla.getSelectionModel().getSelectedItem();
+        if (cuenta != null) {
             try {
-                eliminarCuentaDeBaseDatos(cuentaSeleccionada);
-                listaCuentas.remove(cuentaSeleccionada);
-                mostrarAlerta("Elemento eliminado", "El elemento seleccionado ha sido eliminada exitosamente.");
-
+                eliminarCuentaDeBaseDatos(cuenta);
+                listaCuenta.remove(cuenta);
+                mostrarAlerta("Elemento eliminado", "El elemento seleccionado ha sido eliminado exitosamente.");
             } catch (SQLException e) {
                 e.printStackTrace();
                 mostrarAlerta("Error", "No se pudo eliminar el elemento.");
@@ -135,17 +139,16 @@ public class HelloController {
             int id = Integer.parseInt(idInput);
             Cuenta cuentaBuscada = buscarCuentaPorId(id);
 
+            listaCuenta.clear();
 
-            listaCuentas.clear();
             if (cuentaBuscada != null) {
                 System.out.println("Cuenta encontrada: " + cuentaBuscada);
-                listaCuentas.add(cuentaBuscada);
+                listaCuenta.add(cuentaBuscada);
+                tabla.setItems(listaCuenta); // Refresca la tabla con el resultado
             } else {
                 mostrarAlerta("No encontrado", "No se encontró ninguna cuenta con el ID especificado.");
+                tabla.setItems(FXCollections.observableArrayList()); // Limpia la tabla si no se encuentra
             }
-
-
-            tabla.setItems(listaCuentas); // Asegúrate de refrescar la tabla
 
         } catch (NumberFormatException e) {
             mostrarAlerta("Error", "El ID ingresado no es válido.");
@@ -154,7 +157,6 @@ public class HelloController {
             mostrarAlerta("Error", "No se pudo acceder a la base de datos.");
         }
     }
-
 
     private Cuenta buscarCuentaPorId(int id) throws SQLException {
         String sql = "SELECT ID, SEQUENCE, ACTIVE, CREATE_DATE, NAME FROM ir_ui_menu WHERE ID = ?";
@@ -175,12 +177,6 @@ public class HelloController {
             }
         }
     }
-
-
-    private void cargarTodasLasCuentas() {
-        tabla.setItems(listaCuentas);
-    }
-
     @FXML
     public void botoneditar(ActionEvent actionEvent) {
         Cuenta cuentaSeleccionada = tabla.getSelectionModel().getSelectedItem();
@@ -207,12 +203,11 @@ public class HelloController {
             mostrarAlerta("Advertencia", "Por favor, selecciona una cuenta para editar.");
         }
     }
-
-
     @FXML
     public void BotonCargar(ActionEvent actionEvent) {
-        isDataLoaded.set(false);  // Desactiva los botones mientras se cargan los datos
-        Task<Void> cargarDatosTask = new Task<Void>() {
+        isDataLoaded.set(false);
+
+        Task<Void> cargarDatosTask = new Task<>() {
             @Override
             protected Void call() throws Exception {
                 List<Cuenta> datos = new ArrayList<>();
@@ -227,13 +222,12 @@ public class HelloController {
                         LocalDate createDate = resultado.getDate("CREATE_DATE").toLocalDate();
                         String name = resultado.getString("NAME");
 
-                        // Agregar cada cuenta a la lista de datos
                         datos.add(new Cuenta(id, sequence, active, Date.valueOf(createDate), name));
                     }
 
                     Platform.runLater(() -> {
-                        listaCuentas = FXCollections.observableArrayList(datos);
-                        tabla.setItems(listaCuentas);
+                        listaCuenta.setAll(datos);
+                        tabla.setItems(listaCuenta);
                         isDataLoaded.set(true);
                     });
 
@@ -246,8 +240,8 @@ public class HelloController {
             }
         };
 
-        // Ejecutar la tarea de carga en un hilo separado para no bloquear la interfaz
         Thread hilo = new Thread(cargarDatosTask);
+        hilo.setDaemon(true);
         hilo.start();
     }
 
