@@ -43,7 +43,7 @@ public class HelloController3 {
             idtext2.setText(cuenta.getID().toString());
             secuenciatext2.setText(cuenta.getSEQUENCE().toString());
             choicetext2.setValue(cuenta.getACTIVE() ? "True" : "False");
-            datetext2.setValue(cuenta.getCREATE_DATE().toLocalDate());
+            datetext2.setValue(cuenta.getCREATE_DATE());
             nametext2.setText(cuenta.getNAME());
         }
     }

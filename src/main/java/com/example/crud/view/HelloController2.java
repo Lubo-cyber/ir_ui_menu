@@ -44,7 +44,7 @@ public class HelloController2 {
         Integer sec = Integer.parseInt(secuenciatext.getText());
         Boolean choice = choicetext.getValue() != null && choicetext.getValue().equals("True");
         String name = nametext.getText();
-        java.sql.Date fecha = java.sql.Date.valueOf(datetext.getValue());
+        LocalDate fecha = datetext.getValue();
 
 
         IrUiMenu nuevoElemento = new IrUiMenu(id, sec, choice, fecha, name);

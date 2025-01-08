@@ -113,7 +113,7 @@ Button:pressed {
 
 #tabla .table-header {
     -fx-background-color: #4db6ac;
-    -fx-text-fill: #ffffff;
+    -fx-text-fill: #000000;
     -fx-font-weight: bold;
 }
 
@@ -123,7 +123,7 @@ Button:pressed {
 
 #tabla .table-row-cell:selected {
     -fx-background-color: #00796b;
-    -fx-text-fill: #ffffff;
+    -fx-text-fill: #000000;
 }
 
 #tabla .table-row-cell:hover {
@@ -132,5 +132,5 @@ Button:pressed {
 
 #tabla .table-column-header {
     -fx-background-color: #4db6ac;
-    -fx-text-fill: #ffffff;
+    -fx-text-fill: #000000;
 }
