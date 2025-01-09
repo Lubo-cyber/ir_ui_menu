@@ -49,7 +49,7 @@ public class HelloController {
   @FXML
   private Button mas;
   @FXML
-  private Button Cargar;
+  private Button cargar;
   @FXML
   private TableView<Cuenta> tabla;
   @FXML
@@ -113,7 +113,7 @@ public class HelloController {
     String sql = "DELETE FROM ir_ui_menu WHERE id = ?";
     try (Connection conexion = Conexion.conectar();
          PreparedStatement pst = conexion.prepareStatement(sql)) {
-      pst.setInt(1, cuenta.getID());
+      pst.setInt(1, cuenta.getId());
       pst.executeUpdate();
     }
   }
@@ -254,7 +254,7 @@ public class HelloController {
    */
 
   @FXML
-  public void BotonCargar(ActionEvent actionEvent) {
+  public void botoncargar(ActionEvent actionEvent) {
     isDataLoaded.set(false);
     cargarTodasLasCuentas();
   }

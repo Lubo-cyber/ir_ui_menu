@@ -39,12 +39,12 @@
         <TextField fx:id="secuenciatext2" layoutX="209.0" layoutY="176.0" />
         <DatePicker fx:id="datetext2" layoutX="238.0" layoutY="251.0" />
         <ChoiceBox fx:id="choicetext2" layoutX="170.0" layoutY="326.0" prefWidth="150.0" />
-        <Button fx:id="BotonAceptar2" layoutX="146.0" layoutY="487.0" mnemonicParsing="false" onAction="#BotonAceptarAction" prefHeight="49.0" prefWidth="126.0" text="Aceptar">
+        <Button fx:id="botonaceptar2" layoutX="146.0" layoutY="487.0" mnemonicParsing="false" onAction="#botonaceptaraction" prefHeight="49.0" prefWidth="126.0" text="Aceptar">
             <font>
                 <Font size="20.0" />
             </font>
         </Button>
-        <Button fx:id="BotonCancelar2" layoutX="358.0" layoutY="487.0" mnemonicParsing="false" onAction="#BotonCancelarAction" prefHeight="49.0" prefWidth="126.0" text="Cancelar">
+        <Button fx:id="botoncancelar2" layoutX="358.0" layoutY="487.0" mnemonicParsing="false" onAction="#botoncancelaraction" prefHeight="49.0" prefWidth="126.0" text="Cancelar">
             <font>
                 <Font size="20.0" />
             </font>

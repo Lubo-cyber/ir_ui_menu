@@ -74,7 +74,7 @@
                <Insets left="5.0" />
             </HBox.margin>
             </Button>
-           <Button fx:id="Cargar" alignment="CENTER" contentDisplay="RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#BotonCargar" prefHeight="64.0" prefWidth="167.0" text="Cargar/Refrescar" textAlignment="RIGHT" HBox.hgrow="ALWAYS">
+           <Button fx:id="cargar" alignment="CENTER" contentDisplay="RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#botoncargar" prefHeight="64.0" prefWidth="167.0" text="Cargar/Refrescar" textAlignment="RIGHT" HBox.hgrow="ALWAYS">
             <HBox.margin>
                <Insets left="360.0" />
             </HBox.margin>

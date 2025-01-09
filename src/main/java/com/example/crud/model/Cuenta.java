@@ -1,84 +1,196 @@
 package com.example.crud.model;
 
-import javafx.beans.property.*;
-import java.sql.*;
 import java.time.LocalDate;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
+/**
+ * Clase que representa una Cuenta con propiedades observables para usar en JavaFX.
+ */
 public class Cuenta {
 
-    private final IntegerProperty ID;
-    private final IntegerProperty SEQUENCE;
-    private final BooleanProperty ACTIVE;
-    private final ObjectProperty<LocalDate> CREATE_DATE;
-    private final StringProperty NAME;
+  /**
+   * Identificador único de la cuenta.
+   */
+  private final IntegerProperty id;
 
-    public Cuenta(Integer id, Integer sequence, Boolean active, LocalDate createDate, String name) {
-        this.ID = new SimpleIntegerProperty(id);
-        this.SEQUENCE = new SimpleIntegerProperty(sequence);
-        this.ACTIVE = new SimpleBooleanProperty(active);
-        this.CREATE_DATE = new SimpleObjectProperty<>(createDate);
-        this.NAME = new SimpleStringProperty(name);
-    }
+  /**
+   * Secuencia o número asociado a la cuenta.
+   */
+  private final IntegerProperty sequence;
 
-    public Integer getID() {
-        return ID.get();
-    }
+  /**
+   * Indica si la cuenta está activa.
+   */
+  private final BooleanProperty active;
 
-    public void setID(Integer ID) {
-        this.ID.set(ID);
-    }
+  /**
+   * Fecha de creación de la cuenta.
+   */
+  private final ObjectProperty<LocalDate> createdate;
 
-    public IntegerProperty idProperty() {
-        return ID;
-    }
+  /**
+   * Nombre asociado a la cuenta.
+   */
+  private final StringProperty name;
 
-    public Integer getSEQUENCE() {
-        return SEQUENCE.get();
-    }
+  /**
+   * Constructor que inicializa todas las propiedades de la cuenta.
+   *
+   * @param id         Identificador único de la cuenta.
+   * @param sequence   Secuencia o número asociado a la cuenta.
+   * @param active     Estado de actividad de la cuenta.
+   * @param createDate Fecha de creación de la cuenta.
+   * @param name       Nombre de la cuenta.
+   */
+  public Cuenta(Integer id, Integer sequence, Boolean active, LocalDate createDate, String name) {
+    this.id = new SimpleIntegerProperty(id);
+    this.sequence = new SimpleIntegerProperty(sequence);
+    this.active = new SimpleBooleanProperty(active);
+    this.createdate = new SimpleObjectProperty<>(createDate);
+    this.name = new SimpleStringProperty(name);
+  }
 
-    public void setSEQUENCE(Integer SEQUENCE) {
-        this.SEQUENCE.set(SEQUENCE);
-    }
+  /**
+   * Obtiene el identificador único de la cuenta.
+   *
+   * @return El identificador de la cuenta.
+   */
+  public Integer getId() {
+    return id.get();
+  }
 
-    public IntegerProperty sequenceProperty() {
-        return SEQUENCE;
-    }
+  /**
+   * Establece el identificador único de la cuenta.
+   *
+   * @param id El nuevo identificador de la cuenta.
+   */
+  public void setId(Integer id) {
+    this.id.set(id);
+  }
 
-    public Boolean getACTIVE() {
-        return ACTIVE.get();
-    }
+  /**
+   * Propiedad observable del identificador de la cuenta.
+   *
+   * @return La propiedad del identificador.
+   */
+  public IntegerProperty idProperty() {
+    return id;
+  }
 
-    public void setACTIVE(Boolean ACTIVE) {
-        this.ACTIVE.set(ACTIVE);
-    }
+  /**
+   * Obtiene la secuencia o número asociado a la cuenta.
+   *
+   * @return La secuencia de la cuenta.
+   */
+  public Integer getSequence() {
+    return sequence.get();
+  }
 
-    public BooleanProperty activeProperty() {
-        return ACTIVE;
-    }
+  /**
+   * Establece la secuencia o número asociado a la cuenta.
+   *
+   * @param sequence La nueva secuencia de la cuenta.
+   */
+  public void setSequence(Integer sequence) {
+    this.sequence.set(sequence);
+  }
 
-    public LocalDate getCREATE_DATE() {
-        return CREATE_DATE.get();
-    }
+  /**
+   * Propiedad observable de la secuencia de la cuenta.
+   *
+   * @return La propiedad de la secuencia.
+   */
+  public IntegerProperty sequenceProperty() {
+    return sequence;
+  }
 
-    public void setCREATE_DATE(LocalDate CREATE_DATE) {
-        this.CREATE_DATE.set(CREATE_DATE);
-    }
+  /**
+   * Obtiene el estado de actividad de la cuenta.
+   *
+   * @return {@code true} si la cuenta está activa, de lo contrario {@code false}.
+   */
+  public Boolean getActive() {
+    return active.get();
+  }
 
-    public ObjectProperty<LocalDate> createDateProperty() {
-        return CREATE_DATE;
-    }
+  /**
+   * Establece el estado de actividad de la cuenta.
+   *
+   * @param active El nuevo estado de actividad de la cuenta.
+   */
+  public void setActive(Boolean active) {
+    this.active.set(active);
+  }
 
-    public String getNAME() {
-        return NAME.get();
-    }
+  /**
+   * Propiedad observable del estado de actividad de la cuenta.
+   *
+   * @return La propiedad de actividad.
+   */
+  public BooleanProperty activeProperty() {
+    return active;
+  }
 
-    public void setNAME(String NAME) {
-        this.NAME.set(NAME);
-    }
+  /**
+   * Obtiene la fecha de creación de la cuenta.
+   *
+   * @return La fecha de creación de la cuenta.
+   */
+  public LocalDate getCreatedate() {
+    return createdate.get();
+  }
 
-    public StringProperty nameProperty() {
-        return NAME;
-    }
+  /**
+   * Establece la fecha de creación de la cuenta.
+   *
+   * @param createdate La nueva fecha de creación de la cuenta.
+   */
+  public void setCreatedate(LocalDate createdate) {
+    this.createdate.set(createdate);
+  }
+
+  /**
+   * Propiedad observable de la fecha de creación de la cuenta.
+   *
+   * @return La propiedad de la fecha de creación.
+   */
+  public ObjectProperty<LocalDate> createDateProperty() {
+    return createdate;
+  }
+
+  /**
+   * Obtiene el nombre asociado a la cuenta.
+   *
+   * @return El nombre de la cuenta.
+   */
+  public String getName() {
+    return name.get();
+  }
+
+  /**
+   * Establece el nombre asociado a la cuenta.
+   *
+   * @param name El nuevo nombre de la cuenta.
+   */
+  public void setName(String name) {
+    this.name.set(name);
+  }
+
+  /**
+   * Propiedad observable del nombre de la cuenta.
+   *
+   * @return La propiedad del nombre.
+   */
+  public StringProperty nameProperty() {
+    return name;
+  }
 }
 
 
