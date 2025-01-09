@@ -12,9 +12,8 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 /**
- * Inicio del controlador 2.
+ * Controlador para la gestión de la vista secundaria.
  */
-
 public class HelloController2 {
 
   @FXML
@@ -33,15 +32,20 @@ public class HelloController2 {
   private TextField nametext;
 
   /**
-   * El metodo inicializae.
+   * Inicializa el controlador y configura las propiedades iniciales de los componentes.
    */
   public void initialize() {
     choicetext.getItems().addAll("True", "False");
   }
 
   /**
-   * El boton aceptar su accion.
+   * Acción asociada al botón "Aceptar".
+   * Recoge los datos ingresados por el usuario, crea un nuevo objeto
+   * {@code IrUiMenu}, y lo almacena en la base de datos.
+   *
+   * @param actionEvent Evento generado al hacer clic en el botón.
    */
+
   @FXML
   public void botonaceptaraction(ActionEvent actionEvent) {
     Integer id = Integer.parseInt(idtext.getText());
@@ -60,8 +64,12 @@ public class HelloController2 {
   }
 
   /**
-   * El boton cancelar su accion.
+   * Acción asociada al botón "Cancelar".
+   * Cierra la ventana actual sin realizar ninguna acción adicional.
+   *
+   * @param actionEvent Evento generado al hacer clic en el botón.
    */
+
   @FXML
   public void botoncancelaraction(ActionEvent actionEvent) {
     ((Stage) idtext.getScene().getWindow()).close();

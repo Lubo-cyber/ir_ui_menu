@@ -32,7 +32,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
- * Controlador principal.
+ * Controlador principal de la aplicación.
+ * Gestiona las interacciones con la interfaz gráfica y las operaciones con la base de datos.
  */
 public class HelloController {
 
@@ -68,8 +69,9 @@ public class HelloController {
   private AnchorPane fondo;
 
   /**
-   * Metodo Inicializar.
+   * Inicializa el controlador y configura las propiedades iniciales de los componentes.
    */
+
   public void initialize() {
     mas.visibleProperty().bind(isDataLoaded);
     eliminar.visibleProperty().bind(isDataLoaded);
@@ -80,14 +82,20 @@ public class HelloController {
   }
 
   /**
-   * El boton de añadir.
+   * Muestra la ventana para añadir un nuevo elemento.
+   *
+   * @param actionEvent Evento generado al hacer clic en el botón.
+   * @throws IOException Si ocurre un error al cargar la vista.
    */
+
   @FXML
   public void botonmas(ActionEvent actionEvent) throws IOException {
     showModal("Anadir.fxml", "Nuevo elemento");
   }
   /**
-   * El boton de eliminar.
+   * Elimina el elemento seleccionado de la tabla y de la base de datos.
+   *
+   * @param actionEvent Evento generado al hacer clic en el botón.
    */
 
   @FXML
@@ -108,6 +116,12 @@ public class HelloController {
       mostrarAlerta("Advertencia", "No hay elemento seleccionada para eliminar.");
     }
   }
+  /**
+   * Elimina una cuenta específica de la base de datos.
+   *
+   * @param cuenta La cuenta a eliminar.
+   * @throws SQLException Si ocurre un error en la base de datos.
+   */
 
   private void eliminarCuentaDeBaseDatos(Cuenta cuenta) throws SQLException {
     String sql = "DELETE FROM ir_ui_menu WHERE id = ?";
@@ -117,6 +131,12 @@ public class HelloController {
       pst.executeUpdate();
     }
   }
+  /**
+   * Muestra una alerta con el título y mensaje especificados.
+   *
+   * @param title Título de la alerta.
+   * @param message Mensaje de la alerta.
+   */
 
   private void mostrarAlerta(String title, String message) {
     Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -126,7 +146,9 @@ public class HelloController {
     alert.showAndWait();
   }
   /**
-   * El boton de buscar.
+   * Busca un elemento en la base de datos según el ID ingresado.
+   *
+   * @param actionEvent Evento generado al hacer clic en el botón.
    */
 
   @FXML
@@ -158,7 +180,13 @@ public class HelloController {
       mostrarAlerta("Error", "No se pudo acceder a la base de datos.");
     }
   }
-
+  /**
+   * Busca una cuenta en la base de datos por su ID.
+   *
+   * @param id ID de la cuenta a buscar.
+   * @return La cuenta encontrada, o null si no existe.
+   * @throws SQLException Si ocurre un error en la base de datos.
+   */
 
   private Cuenta buscarCuentaPorId(int id) throws SQLException {
     String sql = "SELECT ID, SEQUENCE, ACTIVE, CREATE_DATE, NAME FROM ir_ui_menu WHERE ID = ?";
@@ -179,6 +207,9 @@ public class HelloController {
       }
     }
   }
+  /**
+   * Carga todas las cuentas desde la base de datos en un hilo secundario.
+   */
 
   private void cargarTodasLasCuentas() {
     Task<Void> cargarDatosTask = new Task<Void>() {
@@ -219,7 +250,9 @@ public class HelloController {
     hilo.start();
   }
   /**
-   * El boton de editar.
+   * Abre la ventana de edición para el elemento seleccionado.
+   *
+   * @param actionEvent Evento generado al hacer clic en el botón.
    */
 
   @FXML
@@ -250,7 +283,9 @@ public class HelloController {
     }
   }
   /**
-   * El boton de cargar.
+   * Carga los datos de la base de datos y actualiza la tabla.
+   *
+   * @param actionEvent Evento generado al hacer clic en el botón.
    */
 
   @FXML
@@ -258,6 +293,13 @@ public class HelloController {
     isDataLoaded.set(false);
     cargarTodasLasCuentas();
   }
+  /**
+   * Muestra un modal con la vista especificada.
+   *
+   * @param fxmlPath Ruta del archivo FXML a cargar.
+   * @param title Título del modal.
+   * @throws IOException Si ocurre un error al cargar el archivo FXML.
+   */
 
   private void showModal(String fxmlPath, String title) throws IOException {
     FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource(fxmlPath));

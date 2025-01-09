@@ -15,8 +15,9 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 /**
- * Inicio del controlador 3.
+ * Controlador para la vista de edición de cuentas.
  */
+
 public class HelloController3 {
 
   @FXML
@@ -37,13 +38,16 @@ public class HelloController3 {
   private Cuenta cuenta;
 
   /**
-   * El metodo inicializar.
+   * Inicializa el controlador y configura las opciones del {@link ChoiceBox}.
    */
+
   public void initialize() {
     choicetext2.getItems().addAll("True", "False");
   }
   /**
-   * El metodo para pasar la informacion recogida de la tabla a la aplicacion.
+   * Establece los datos de la cuenta seleccionada para ser editada.
+   *
+   * @param cuenta La cuenta a editar.
    */
 
   public void setCuenta(Cuenta cuenta) {
@@ -57,7 +61,10 @@ public class HelloController3 {
     }
   }
   /**
-   * La accion del boton aceptar.
+   * Acción asociada al botón "Aceptar".
+   * Actualiza los datos de la cuenta en la base de datos con los valores ingresados.
+   *
+   * @param actionEvent Evento generado al hacer clic en el botón.
    */
 
   @FXML
@@ -87,7 +94,15 @@ public class HelloController3 {
     }
   }
   /**
-   * La funcion para actualizar los datos y meterlos en nuestra tabla de nuestra aplicacion.
+   * Actualiza los datos de una cuenta en la base de datos.
+   *
+   * @param id        ID de la cuenta.
+   * @param sequence  Secuencia de la cuenta.
+   * @param active    Estado activo de la cuenta.
+   * @param createDate Fecha de creación de la cuenta.
+   * @param name      Nombre de la cuenta.
+   * @return Número de filas afectadas por la actualización.
+   * @throws SQLException Si ocurre un error en la base de datos.
    */
 
   public int actualizarCuenta(Integer id, Integer sequence, Boolean active, Date createDate,
@@ -111,8 +126,12 @@ public class HelloController3 {
   }
 
   /**
-   * La accion del boton cancelar.
+   * Acción asociada al botón "Cancelar".
+   * Cierra la ventana actual sin realizar ninguna acción adicional.
+   *
+   * @param actionEvent Evento generado al hacer clic en el botón.
    */
+
   @FXML
   public void botoncancelaraction(ActionEvent actionEvent) {
     ((Stage) botoncancelar2.getScene().getWindow()).close();
