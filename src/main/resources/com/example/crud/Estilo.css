@@ -36,6 +36,7 @@ TextField, TextArea {
 TextField:focused, TextArea:focused {
     -fx-border-color: #00796b;
     -fx-effect: dropshadow(gaussian, rgba(0, 150, 136, 0.5), 6, 0.3, 0, 2);
+
 }
 
 ChoiceBox {
@@ -64,7 +65,9 @@ DatePicker:focused {
     -fx-border-color: #00796b;
     -fx-effect: dropshadow(gaussian, rgba(0, 150, 136, 0.5), 6, 0.3, 0, 2);
 }
-
+.button:focused{
+    -fx-background-color: linear-gradient(to bottom, #3b8c86, #003a32);
+}
 Button {
     -fx-background-color: linear-gradient(to bottom, #4db6ac, #00796b);
     -fx-text-fill: #ffffff;
@@ -74,7 +77,15 @@ Button {
     -fx-padding: 10px 15px;
     -fx-cursor: hand;
 }
-
+ #editar:focused{
+     -fx-background-color: linear-gradient(to bottom, #3b8c86, #003a32);
+ }
+ #eliminar:focused{
+     -fx-background-color: linear-gradient(to bottom, #3b8c86, #003a32);
+ }
+ #mas:focused{
+     -fx-background-color: linear-gradient(to bottom, #3b8c86, #003a32);
+ }
 #mas, #eliminar, #editar {
     -fx-font-size: 26px;
     -fx-background-color: linear-gradient(to bottom, #4db6ac, #00796b);

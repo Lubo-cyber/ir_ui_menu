@@ -27,6 +27,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -64,21 +66,25 @@ public class HelloController {
   @FXML
   private TableColumn<Cuenta, String> tablaname;
   @FXML
-  private TextArea textobuscar;
-  @FXML
-  private AnchorPane fondo;
+  private TextField textobuscar;
 
   /**
    * Inicializa el controlador y configura las propiedades iniciales de los componentes.
    */
 
   public void initialize() {
+    tablaid.setCellValueFactory(new PropertyValueFactory<>("id"));
+    tablasecuencia.setCellValueFactory(new PropertyValueFactory<>("sequence"));
+    tablaactivo.setCellValueFactory(new PropertyValueFactory<>("active"));
+    tablacreardate.setCellValueFactory(new PropertyValueFactory<>("createDate"));
+    tablaname.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+    tabla.setItems(listaCuentas);
+
     mas.visibleProperty().bind(isDataLoaded);
     eliminar.visibleProperty().bind(isDataLoaded);
     editar.visibleProperty().bind(isDataLoaded);
     buscar.visibleProperty().bind(isDataLoaded);
-
-    tabla.setItems(listaCuentas);
   }
 
   /**
@@ -233,7 +239,7 @@ public class HelloController {
 
           Platform.runLater(() -> {
             listaCuentas.setAll(datos);
-            tabla.setItems(listaCuentas);
+            System.out.println("Datos cargados: " + listaCuentas);
             isDataLoaded.set(true);
           });
 

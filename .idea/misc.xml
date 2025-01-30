@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="JavadocGenerationManager">
-    <option name="OUTPUT_DIRECTORY" value="$USER_HOME$/Desktop/HTML JavaDoc" />
+    <option name="OUTPUT_DIRECTORY" value="$USER_HOME$/Desktop/HTMLJavaDoc" />
+    <option name="OTHER_OPTIONS" value="wkhtmltopdf C:\Users\Usuario\Desktop\HTMLJavaDoc\index.html C:\Users\Usuario\Desktop\HTMLJavaDoc\javadoc.pdf " />
   </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
