@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="583.0" prefWidth="619.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.crud.view.HelloController2" stylesheets="@Estilo.css">
+<AnchorPane prefHeight="583.0" prefWidth="619.0" stylesheets="@Estilo.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.crud.view.HelloController2">
    <children>
       <Label layoutX="182.0" layoutY="6.0" prefHeight="75.0" prefWidth="277.0" text="Nuevo elemento" underline="true">
          <font>
@@ -37,7 +37,7 @@
       </Label>
       <TextField fx:id="idtext" layoutX="96.0" layoutY="113.0" />
       <TextField fx:id="secuenciatext" layoutX="209.0" layoutY="176.0" />
-      <DatePicker fx:id="datetext" layoutX="238.0" layoutY="251.0" />
+      <DatePicker fx:id="datetext" layoutX="238.0" layoutY="251.0" onAction="#datepicker" />
       <ChoiceBox fx:id="choicetext" layoutX="170.0" layoutY="326.0" prefWidth="150.0" />
       <Button fx:id="botonaceptar" layoutX="146.0" layoutY="487.0" mnemonicParsing="false" onAction="#botonaceptaraction" prefHeight="49.0" prefWidth="126.0" text="Aceptar">
          <font>

@@ -10,6 +10,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.json.JSONObject;
 
 /**
  * Controlador para la gestión de la vista secundaria.
@@ -52,16 +53,19 @@ public class HelloController2 {
     Integer sec = Integer.parseInt(secuenciatext.getText());
     Boolean choice = choicetext.getValue() != null && choicetext.getValue().equals("True");
     String name = nametext.getText();
-    LocalDate fecha = datetext.getValue();
+    java.sql.Date fh=java.sql.Date.valueOf(datetext.getValue());
 
-    IrUiMenu nuevoElemento = new IrUiMenu(id, sec, choice, fecha, name);
+    IrUiMenu nuevoElemento = new IrUiMenu(id, sec, choice, fh, name);
+
     try {
       nuevoElemento.meter();
     } catch (SQLException e) {
       e.printStackTrace();
     }
+
     ((Stage) idtext.getScene().getWindow()).close();
   }
+
 
   /**
    * Acción asociada al botón "Cancelar".
@@ -73,5 +77,9 @@ public class HelloController2 {
   @FXML
   public void botoncancelaraction(ActionEvent actionEvent) {
     ((Stage) idtext.getScene().getWindow()).close();
+  }
+
+  @FXML
+  public void datepicker(ActionEvent actionEvent) {
   }
 }

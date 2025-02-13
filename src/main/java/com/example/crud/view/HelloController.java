@@ -44,29 +44,29 @@ public class HelloController {
   private final BooleanProperty isDataLoaded = new SimpleBooleanProperty(false);
 
   @FXML
-  private Button eliminar;
+  public Button eliminar;
   @FXML
-  private Button buscar;
+  public Button buscar;
   @FXML
-  private Button editar;
+  public Button editar;
   @FXML
-  private Button mas;
+  public Button mas;
   @FXML
-  private Button cargar;
+  public Button cargar;
   @FXML
-  private TableView<Cuenta> tabla;
+  public TableView<Cuenta> tabla;
   @FXML
-  private TableColumn<Cuenta, Integer> tablaid;
+  public TableColumn<Cuenta, Integer> tablaid;
   @FXML
-  private TableColumn<Cuenta, Integer> tablasecuencia;
+  public TableColumn<Cuenta, Integer> tablasecuencia;
   @FXML
-  private TableColumn<Cuenta, Boolean> tablaactivo;
+  public TableColumn<Cuenta, Boolean> tablaactivo;
   @FXML
-  private TableColumn<Cuenta, LocalDate> tablacreardate;
+  public TableColumn<Cuenta, LocalDate> tablacreardate;
   @FXML
-  private TableColumn<Cuenta, String> tablaname;
+  public TableColumn<Cuenta, String> tablaname;
   @FXML
-  private TextField textobuscar;
+  public TextField textobuscar;
 
   /**
    * Inicializa el controlador y configura las propiedades iniciales de los componentes.
