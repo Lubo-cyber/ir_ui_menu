@@ -115,19 +115,16 @@ class HelloControllerTest {
     robot.sleep(1000);
     FxAssert.verifyThat("#tabla", table -> ((TableView<Cuenta>) table).getItems().size() > 0);
   }
-
   @Test
   @Order(4)
   void testeditar(FxRobot robot) {
-    robot.clickOn("#textobuscar");
-    robot.write("500");
-    robot.clickOn("#buscar");
-    robot.clickOn("#tabla"); // Hace clic en la tabla para darle foco
+    robot.clickOn("#cargar");
+    robot.clickOn("#tabla");
 
     TableView<Cuenta> tableView = robot.lookup("#tabla").queryAs(TableView.class);
 
     if (!tableView.getItems().isEmpty()) {
-      robot.clickOn(tableView.getColumns().get(0).getCellData(0).toString()); // Hacemos clic en el primer valor de la primera columna
+      robot.clickOn(tableView.getColumns().get(0).getCellData(0).toString());
     }
 
     Cuenta cuentaSeleccionada = tableView.getSelectionModel().getSelectedItem();
@@ -136,17 +133,17 @@ class HelloControllerTest {
 
     robot.clickOn("#editar");
     robot.sleep(1000);
+
     robot.clickOn("#secuenciatext2");
     robot.write("30");
     robot.clickOn("#nametext2");
     robot.write("textoeditado");
   }
+
   @Test
   @Order(5)
   void testeliminar(FxRobot robot) {
-    robot.clickOn("#textobuscar");
-    robot.write("500");
-    robot.clickOn("#buscar");
+    robot.clickOn("#cargar");
     robot.clickOn("#tabla");
     TableView<Cuenta> tableView = robot.lookup("#tabla").queryAs(TableView.class);
     if (!tableView.getItems().isEmpty()) {
