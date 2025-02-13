@@ -137,7 +137,9 @@ class HelloControllerTest {
     robot.clickOn("#secuenciatext2");
     robot.write("30");
     robot.clickOn("#nametext2");
+    robot.eraseText(30);
     robot.write("textoeditado");
+    robot.clickOn("#botonaceptar2");
   }
 
   @Test
