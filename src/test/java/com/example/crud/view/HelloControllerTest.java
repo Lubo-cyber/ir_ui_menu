@@ -119,6 +119,9 @@ class HelloControllerTest {
   @Test
   @Order(4)
   void testeditar(FxRobot robot) {
+    robot.clickOn("#textobuscar");
+    robot.write("500");
+    robot.clickOn("#buscar");
     robot.clickOn("#tabla"); // Hace clic en la tabla para darle foco
 
     TableView<Cuenta> tableView = robot.lookup("#tabla").queryAs(TableView.class);
@@ -141,6 +144,9 @@ class HelloControllerTest {
   @Test
   @Order(5)
   void testeliminar(FxRobot robot) {
+    robot.clickOn("#textobuscar");
+    robot.write("500");
+    robot.clickOn("#buscar");
     robot.clickOn("#tabla");
     TableView<Cuenta> tableView = robot.lookup("#tabla").queryAs(TableView.class);
     if (!tableView.getItems().isEmpty()) {
