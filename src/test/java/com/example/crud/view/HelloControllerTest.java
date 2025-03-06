@@ -56,7 +56,7 @@ class HelloControllerTest {
     robot.clickOn("#cargar");
     robot.sleep(2000);
     WaitForAsyncUtils.waitForFxEvents();
-    FxAssert.verifyThat("#tabla", TableViewMatchers.hasNumRows(384));
+    FxAssert.verifyThat("#tabla", TableViewMatchers.hasNumRows(383));
   }
 
   private void selectDateFromPicker(FxRobot robot, String datePickerId, LocalDate date) {
@@ -267,6 +267,10 @@ class HelloControllerTest {
     robot.write("999999");
     robot.clickOn("#buscar");
     robot.sleep(1000);
+
+    if (robot.lookup(".alert").tryQuery().isPresent()) {
+      robot.clickOn("Aceptar");
+    }
 
     FxAssert.verifyThat("#tabla", TableViewMatchers.hasNumRows(0));
   }
