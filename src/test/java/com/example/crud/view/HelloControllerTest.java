@@ -46,14 +46,17 @@ class HelloControllerTest {
     stage.setScene(scene);
     stage.show();
   }
-
   @Test
   @Order(1)
   void testcargar(FxRobot robot) {
-    robot.clickOn("#cargar");
-    robot.sleep(3000);
+    TableView<Cuenta> tableView = robot.lookup("#tabla").queryAs(TableView.class);
+    FxAssert.verifyThat("#tabla", TableViewMatchers.hasNumRows(0));
 
-    FxAssert.verifyThat("#tabla", TableViewMatchers.hasNumRows(1));
+
+    robot.clickOn("#cargar");
+    robot.sleep(2000);
+    WaitForAsyncUtils.waitForFxEvents();
+    FxAssert.verifyThat("#tabla", TableViewMatchers.hasNumRows(384));
   }
 
   private void selectDateFromPicker(FxRobot robot, String datePickerId, LocalDate date) {
@@ -179,7 +182,7 @@ class HelloControllerTest {
 
 
   @Test
-  @Order(5)
+  @Order(8)
   void testeliminar(FxRobot robot) {
     robot.clickOn("#cargar");
     robot.sleep(2000);
@@ -202,7 +205,7 @@ class HelloControllerTest {
     FxAssert.verifyThat("#tabla", TableViewMatchers.hasNumRows(filasAntes - 1));
   }
   @Test
-  @Order(6)
+  @Order(5)
   void testCancelarAniadir(FxRobot robot) {
     robot.clickOn("#cargar");
     robot.sleep(1000);
@@ -222,7 +225,7 @@ class HelloControllerTest {
     FxAssert.verifyThat("#tabla", TableViewMatchers.hasNumRows(filasAntes));
   }
   @Test
-  @Order(7)
+  @Order(6)
   void testCancelarEditar(FxRobot robot) {
     robot.clickOn("#cargar");
     robot.clickOn("#tabla");
@@ -255,7 +258,7 @@ class HelloControllerTest {
   }
 
   @Test
-  @Order(8)
+  @Order(7)
   void testBuscarSinResultados(FxRobot robot) {
     robot.clickOn("#cargar");
     robot.sleep(1000);
